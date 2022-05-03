@@ -1,0 +1,12 @@
+C:\Users\User\source\repos\CheckersApp\CheckersApp\Shared\bin\Debug\net5.0\CheckersApp.Shared.deps.json
+C:\Users\User\source\repos\CheckersApp\CheckersApp\Shared\bin\Debug\net5.0\CheckersApp.Shared.dll
+C:\Users\User\source\repos\CheckersApp\CheckersApp\Shared\bin\Debug\net5.0\ref\CheckersApp.Shared.dll
+C:\Users\User\source\repos\CheckersApp\CheckersApp\Shared\bin\Debug\net5.0\CheckersApp.Shared.pdb
+C:\Users\User\source\repos\CheckersApp\CheckersApp\Shared\obj\Debug\net5.0\CheckersApp.Shared.csproj.AssemblyReference.cache
+C:\Users\User\source\repos\CheckersApp\CheckersApp\Shared\obj\Debug\net5.0\CheckersApp.Shared.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\User\source\repos\CheckersApp\CheckersApp\Shared\obj\Debug\net5.0\CheckersApp.Shared.AssemblyInfoInputs.cache
+C:\Users\User\source\repos\CheckersApp\CheckersApp\Shared\obj\Debug\net5.0\CheckersApp.Shared.AssemblyInfo.cs
+C:\Users\User\source\repos\CheckersApp\CheckersApp\Shared\obj\Debug\net5.0\CheckersApp.Shared.csproj.CoreCompileInputs.cache
+C:\Users\User\source\repos\CheckersApp\CheckersApp\Shared\obj\Debug\net5.0\CheckersApp.Shared.dll
+C:\Users\User\source\repos\CheckersApp\CheckersApp\Shared\obj\Debug\net5.0\ref\CheckersApp.Shared.dll
+C:\Users\User\source\repos\CheckersApp\CheckersApp\Shared\obj\Debug\net5.0\CheckersApp.Shared.pdb
