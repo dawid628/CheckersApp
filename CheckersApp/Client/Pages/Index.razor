@@ -1,7 +1,68 @@
 ﻿@page "/"
+@using Microsoft.AspNetCore.SignalR.Client
 
-<h1>Hello, world!</h1>
+@using Microsoft.AspNetCore.Authorization;
+@code{
+    [CascadingParameter]
+    private Task<AuthenticationState> _authState { get; set; }
+    private AuthenticationState authState;
 
-Welcome to your new app.
+    HubConnection hubConnection = new HubConnectionBuilder()
+    .WithUrl("https://localhost:44303/connect")
+    .Build();
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await _authState;
+        await RefreshTables();
+    }
+
+    bool inGame = false;
+
+    async Task RefreshTables()
+    {
+        HttpClient client = new HttpClient();
+        tables = await client.GetFromJsonAsync<List<string>>("https://localhost:44303/api/GetTables");
+    }
+
+    async Task CreateGame()
+    {
+        await hubConnection.StartAsync();
+        tableId = Guid.NewGuid().ToString();
+      //  userName = authState.User.Identity.Name;
+        await hubConnection.SendAsync("JoinTable", tableId);
+        inGame = true;
+    }
+
+    async Task JoinGame(string tableId)
+    {
+        await hubConnection.StartAsync();
+        this.tableId = tableId;
+        isWhite = false;
+        await hubConnection.SendAsync("JoinTable", tableId);
+        inGame = true;
+    }
+    string tableId = "";
+  //  string userName = "";
+    List<string> tables = new List<string>();
+    bool isWhite = true;
+}
+<AuthorizeView>
+    <Authorized>
+        @if (inGame)
+        {
+            <Checkerboard HubConnection="hubConnection" TableId="@tableId" IsWhitePlayer="isWhite" />
+        }
+        else
+        {
+            <button @onclick="CreateGame">Create Game</button>
+            @foreach (string table in tables)
+            {
+                <button @onclick="() => JoinGame(table)">Join Game @table</button>
+            }
+        }
+    </Authorized>
+    <NotAuthorized>
+        <p><a href="/Identity/Account/Login">Sign in</a> to see this page.</p>
+    </NotAuthorized>
+</AuthorizeView>

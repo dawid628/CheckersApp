@@ -1,4 +1,5 @@
 using CheckersApp.Server.Data;
+using CheckersApp.Server.Hubs;
 using CheckersApp.Server.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
@@ -26,6 +27,9 @@ namespace CheckersApp.Server
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSignalR();
+            services.AddSingleton<TableManager>();
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
@@ -75,6 +79,7 @@ namespace CheckersApp.Server
             {
                 endpoints.MapRazorPages();
                 endpoints.MapControllers();
+                endpoints.MapHub<MultiplayerHub>("/connect");
                 endpoints.MapFallbackToFile("index.html");
             });
         }

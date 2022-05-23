@@ -206,3 +206,12 @@ C:\Users\User\source\repos\CheckersApp\CheckersApp\Server\obj\Debug\net5.0\Razor
 C:\Users\User\source\repos\CheckersApp\CheckersApp\Server\obj\Debug\net5.0\Razor\Manage\_ViewImports.cshtml.g.cs
 C:\Users\User\source\repos\CheckersApp\CheckersApp\Server\obj\Debug\net5.0\Razor\Manage\_ViewStart.cshtml.g.cs
 C:\Users\User\source\repos\CheckersApp\CheckersApp\Server\obj\Debug\net5.0\Razor\Areas\Identity\Pages\Account\Manage\Index.cshtml.g.cs
+C:\Users\User\source\repos\CheckersApp\CheckersApp\Server\bin\Debug\net5.0\Microsoft.AspNetCore.Connections.Abstractions.dll
+C:\Users\User\source\repos\CheckersApp\CheckersApp\Server\bin\Debug\net5.0\Microsoft.AspNetCore.Http.Connections.Client.dll
+C:\Users\User\source\repos\CheckersApp\CheckersApp\Server\bin\Debug\net5.0\Microsoft.AspNetCore.Http.Connections.Common.dll
+C:\Users\User\source\repos\CheckersApp\CheckersApp\Server\bin\Debug\net5.0\Microsoft.AspNetCore.Http.Features.dll
+C:\Users\User\source\repos\CheckersApp\CheckersApp\Server\bin\Debug\net5.0\Microsoft.AspNetCore.SignalR.Client.dll
+C:\Users\User\source\repos\CheckersApp\CheckersApp\Server\bin\Debug\net5.0\Microsoft.AspNetCore.SignalR.Client.Core.dll
+C:\Users\User\source\repos\CheckersApp\CheckersApp\Server\bin\Debug\net5.0\Microsoft.AspNetCore.SignalR.Common.dll
+C:\Users\User\source\repos\CheckersApp\CheckersApp\Server\bin\Debug\net5.0\Microsoft.AspNetCore.SignalR.Protocols.Json.dll
+C:\Users\User\source\repos\CheckersApp\CheckersApp\Server\bin\Debug\net5.0\Microsoft.Extensions.Primitives.dll

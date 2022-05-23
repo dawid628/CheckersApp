@@ -89,6 +89,20 @@ using CheckersApp.Client.Shared;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 2 "C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\Pages\Index.razor"
+using Microsoft.AspNetCore.SignalR.Client;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 4 "C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\Pages\Index.razor"
+using Microsoft.AspNetCore.Authorization;
+
+#line default
+#line hidden
+#nullable disable
     [Microsoft.AspNetCore.Components.RouteAttribute("/")]
     public partial class Index : Microsoft.AspNetCore.Components.ComponentBase
     {
@@ -97,6 +111,58 @@ using CheckersApp.Client.Shared;
         {
         }
         #pragma warning restore 1998
+#nullable restore
+#line 5 "C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\Pages\Index.razor"
+      
+    [CascadingParameter]
+    private Task<AuthenticationState> _authState { get; set; }
+    private AuthenticationState authState;
+
+    HubConnection hubConnection = new HubConnectionBuilder()
+    .WithUrl("https://localhost:44303/connect")
+    .Build();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await _authState;
+        await RefreshTables();
+    }
+
+    bool inGame = false;
+
+    async Task RefreshTables()
+    {
+        HttpClient client = new HttpClient();
+        tables = await client.GetFromJsonAsync<List<string>>("https://localhost:44303/api/GetTables");
+    }
+
+    async Task CreateGame()
+    {
+        await hubConnection.StartAsync();
+        tableId = Guid.NewGuid().ToString();
+        userName = authState.User.Identity.Name;
+        tableNames.Add(new KeyValuePair<string,string>(userName, tableId));
+        await hubConnection.SendAsync("JoinTable", tableId, userName);
+        inGame = true;
+    }
+
+    async Task JoinGame(string tableId)
+    {
+        await hubConnection.StartAsync();
+        this.tableId = tableId;
+        isWhite = false;
+        await hubConnection.SendAsync("JoinTable", tableId);
+        inGame = true;
+    }
+    string tableId = "";
+    string userName = "";
+    List<string> tables = new List<string>();
+    List<KeyValuePair<string, string>> tableNames = new List<KeyValuePair<string, string>>();
+    bool isWhite = true;
+
+#line default
+#line hidden
+#nullable disable
     }
 }
 #pragma warning restore 1591
