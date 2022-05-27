@@ -112,11 +112,11 @@ using Microsoft.AspNetCore.Authorization;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 5 "C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\Pages\Index.razor"
+#line 6 "C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\Pages\Index.razor"
       
-    [CascadingParameter]
-    private Task<AuthenticationState> _authState { get; set; }
-    private AuthenticationState authState;
+    //[CascadingParameter]
+    //private Task<AuthenticationStateProvider> _authState { get; set; }
+    //  private AuthenticationStateProvider authState;
 
     HubConnection hubConnection = new HubConnectionBuilder()
     .WithUrl("https://localhost:44303/connect")
@@ -124,7 +124,9 @@ using Microsoft.AspNetCore.Authorization;
 
     protected override async Task OnInitializedAsync()
     {
-        var authState = await _authState;
+        //   var authState = await _authState;
+
+
         await RefreshTables();
     }
 
@@ -138,31 +140,40 @@ using Microsoft.AspNetCore.Authorization;
 
     async Task CreateGame()
     {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        playerName = user.Identity.Name;
+
         await hubConnection.StartAsync();
         tableId = Guid.NewGuid().ToString();
-        userName = authState.User.Identity.Name;
-        tableNames.Add(new KeyValuePair<string,string>(userName, tableId));
-        await hubConnection.SendAsync("JoinTable", tableId, userName);
+
+
+        await hubConnection.SendAsync("JoinTable", tableId);
         inGame = true;
     }
 
     async Task JoinGame(string tableId)
     {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        playerName = user.Identity.Name;
+
         await hubConnection.StartAsync();
         this.tableId = tableId;
         isWhite = false;
         await hubConnection.SendAsync("JoinTable", tableId);
         inGame = true;
     }
+    string playerName = "";
     string tableId = "";
-    string userName = "";
+    //  string userName = "";
     List<string> tables = new List<string>();
-    List<KeyValuePair<string, string>> tableNames = new List<KeyValuePair<string, string>>();
     bool isWhite = true;
 
 #line default
 #line hidden
 #nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private AuthenticationStateProvider AuthenticationStateProvider { get; set; }
     }
 }
 #pragma warning restore 1591

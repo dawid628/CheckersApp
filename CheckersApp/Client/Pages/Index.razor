@@ -2,10 +2,11 @@
 @using Microsoft.AspNetCore.SignalR.Client
 
 @using Microsoft.AspNetCore.Authorization;
+@inject AuthenticationStateProvider AuthenticationStateProvider
 @code{
-    [CascadingParameter]
-    private Task<AuthenticationState> _authState { get; set; }
-    private AuthenticationState authState;
+    //[CascadingParameter]
+    //private Task<AuthenticationStateProvider> _authState { get; set; }
+    //  private AuthenticationStateProvider authState;
 
     HubConnection hubConnection = new HubConnectionBuilder()
     .WithUrl("https://localhost:44303/connect")
@@ -13,7 +14,9 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var authState = await _authState;
+        //   var authState = await _authState;
+
+
         await RefreshTables();
     }
 
@@ -27,23 +30,33 @@
 
     async Task CreateGame()
     {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        playerName = user.Identity.Name;
+
         await hubConnection.StartAsync();
         tableId = Guid.NewGuid().ToString();
-      //  userName = authState.User.Identity.Name;
+
+
         await hubConnection.SendAsync("JoinTable", tableId);
         inGame = true;
     }
 
     async Task JoinGame(string tableId)
     {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        playerName = user.Identity.Name;
+
         await hubConnection.StartAsync();
         this.tableId = tableId;
         isWhite = false;
         await hubConnection.SendAsync("JoinTable", tableId);
         inGame = true;
     }
+    string playerName = "";
     string tableId = "";
-  //  string userName = "";
+    //  string userName = "";
     List<string> tables = new List<string>();
     bool isWhite = true;
 }
@@ -51,7 +64,7 @@
     <Authorized>
         @if (inGame)
         {
-            <Checkerboard HubConnection="hubConnection" TableId="@tableId" IsWhitePlayer="isWhite" />
+            <Checkerboard HubConnection="hubConnection" TableId="@tableId" playerName="@playerName" IsWhitePlayer="isWhite" />
         }
         else
         {

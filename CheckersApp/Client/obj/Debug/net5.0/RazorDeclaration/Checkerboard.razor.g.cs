@@ -115,13 +115,18 @@ using Microsoft.AspNetCore.SignalR.Client;
        
     [Parameter] public HubConnection HubConnection { get; set; }
     [Parameter] public string TableId { get; set; }
+    [Parameter] public string playerName { get; set; }
     [Parameter] public bool IsWhitePlayer { get; set; }
 
     List<Checker> blackCheckers = new List<Checker>();
     List<Checker> whiteCheckers = new List<Checker>();
+    string whitePlayer = "x";
+    string blackPlayer = "x";
 
     protected override void OnInitialized()
     {
+        if (IsWhitePlayer) { whitePlayer = playerName; }
+        if (!IsWhitePlayer) { blackPlayer = playerName; }
         for (int i = 0; i < 3; i++)
         {
             for (int j = (i + 1) % 2; j < 8; j += 2)
@@ -152,7 +157,14 @@ using Microsoft.AspNetCore.SignalR.Client;
 
         HubConnection.On("TableJoined", () =>
         {
-            Console.WriteLine("Someone joined your table");
+            if (IsWhitePlayer)
+            {
+                whitePlayer = playerName;
+            }
+            if (!IsWhitePlayer)
+            {
+                blackPlayer = playerName;
+            }
         });
 
         HubConnection.On<int, int, int, int>("Move", ServerMove);
@@ -180,12 +192,12 @@ using Microsoft.AspNetCore.SignalR.Client;
         if (blackCheckers.Count == 0)
         {
             gameOn = false;
-            winner = "white checkers won";
+            winner = "white checkers won " + whitePlayer;
         }
         if (whiteCheckers.Count == 0)
         {
             gameOn = false;
-            winner = "black checkers won";
+            winner = "black checkers won " + blackPlayer;
         }
         if (emptyMoves == 20)
         {
