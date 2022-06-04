@@ -29,6 +29,7 @@ namespace CheckersApp.Server
         {
             services.AddSignalR();
             services.AddSingleton<TableManager>();
+/*            services.AddSingleton<ScoreManager>();*/
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(

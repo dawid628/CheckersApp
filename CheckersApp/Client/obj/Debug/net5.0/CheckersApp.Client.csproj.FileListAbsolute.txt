@@ -675,3 +675,5 @@ C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\obj\Debug\net5.0\build
 C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\obj\Debug\net5.0\build-gz\iYsAO9ne.gz
 C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\obj\Debug\net5.0\build-gz\6tunujwk.gz
 C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\obj\Debug\net5.0\build-gz\Ir5TftWz.gz
+C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\obj\Debug\net5.0\RazorDeclaration\Pages\Home.razor.g.cs
+C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\obj\Debug\net5.0\Razor\Pages\Home.razor.g.cs

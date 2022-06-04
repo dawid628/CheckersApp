@@ -90,21 +90,21 @@ using CheckersApp.Client.Shared;
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\Pages\Index.razor"
+#line 2 "C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\Pages\Indexs.razor"
 using Microsoft.AspNetCore.SignalR.Client;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 3 "C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\Pages\Index.razor"
+#line 4 "C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\Pages\Indexs.razor"
 using Microsoft.AspNetCore.Authorization;
 
 #line default
 #line hidden
 #nullable disable
     [Microsoft.AspNetCore.Components.RouteAttribute("/")]
-    public partial class Index : Microsoft.AspNetCore.Components.ComponentBase
+    public partial class Indexs : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
@@ -112,7 +112,7 @@ using Microsoft.AspNetCore.Authorization;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 5 "C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\Pages\Index.razor"
+#line 6 "C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\Pages\Indexs.razor"
       
     //[CascadingParameter]
     //private Task<AuthenticationStateProvider> _authState { get; set; }
@@ -124,6 +124,9 @@ using Microsoft.AspNetCore.Authorization;
 
     protected override async Task OnInitializedAsync()
     {
+        //   var authState = await _authState;
+
+
         await RefreshTables();
     }
 

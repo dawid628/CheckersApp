@@ -1,6 +1,5 @@
 ﻿@page "/"
 @using Microsoft.AspNetCore.SignalR.Client
-
 @using Microsoft.AspNetCore.Authorization;
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @code{
@@ -14,9 +13,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        //   var authState = await _authState;
-
-
         await RefreshTables();
     }
 
