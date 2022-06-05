@@ -5,7 +5,7 @@
       "url": "_content\/Microsoft.AspNetCore.Components.WebAssembly.Authentication\/AuthenticationService.js"
     },
     {
-      "hash": "sha256-ySBU3iX8FI3DWhulmjLcGbzMvWiMCTYRRDCZzTXmAxA=",
+      "hash": "sha256-bxvGn6qTJ7zpTkFrTRsjQr9kxVkOEZns9anb89lSisI=",
       "url": "_framework\/blazor.boot.json"
     },
     {
@@ -841,11 +841,11 @@
       "url": "_framework\/CheckersApp.Shared.pdb"
     },
     {
-      "hash": "sha256-ktCcc\/nTB1rxAhy5PnAqCR3waKZBzXGVE3U5afOZawY=",
+      "hash": "sha256-HwNvWyF4nMqbKF3VbBXtUYaxFCpUId22sCrk9p+9qSg=",
       "url": "_framework\/CheckersApp.Client.dll"
     },
     {
-      "hash": "sha256-XQNBGtNNtVbFKhjJHPWV2FVHaMxmv6\/ipqA6zUKr9Co=",
+      "hash": "sha256-ghTCPL5Ah6mU+Ln0ziJEkIvjAPfykcv24iBYLb4G8vQ=",
       "url": "_framework\/CheckersApp.Client.pdb"
     },
     {
@@ -1757,5 +1757,5 @@
       "url": "CheckersApp.Client.bundle.scp.css"
     }
   ],
-  "version": "Hgcq6Jrx"
+  "version": "vcc0ioOK"
 };

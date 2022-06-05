@@ -90,21 +90,21 @@ using CheckersApp.Client.Shared;
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\Pages\Index - kopiować.razor"
+#line 2 "C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\Pages\Score.razor"
 using Microsoft.AspNetCore.SignalR.Client;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 3 "C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\Pages\Index - kopiować.razor"
+#line 3 "C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\Pages\Score.razor"
 using Microsoft.AspNetCore.Authorization;
 
 #line default
 #line hidden
 #nullable disable
-    [Microsoft.AspNetCore.Components.RouteAttribute("/play")]
-    public partial class Index___kopiować : Microsoft.AspNetCore.Components.ComponentBase
+    [Microsoft.AspNetCore.Components.RouteAttribute("/ranking")]
+    public partial class Score : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
@@ -112,65 +112,25 @@ using Microsoft.AspNetCore.Authorization;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 5 "C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\Pages\Index - kopiować.razor"
+#line 4 "C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\Pages\Score.razor"
       
-    //[CascadingParameter]
-    //private Task<AuthenticationStateProvider> _authState { get; set; }
-    //  private AuthenticationStateProvider authState;
+    Dictionary<string, int> scores = new();
 
-    HubConnection hubConnection = new HubConnectionBuilder()
-    .WithUrl("https://localhost:44303/connect")
-    .Build();
+    async Task GetScores()
+    {
+        HttpClient client = new HttpClient();
+        scores = await client.GetFromJsonAsync<Dictionary<string, int>>("https://localhost:44303/api/GetScores");
+    }
 
     protected override async Task OnInitializedAsync()
     {
-        await RefreshTables();
+        await GetScores();
     }
-
-    bool inGame = false;
-
-    async Task RefreshTables()
-    {
-        HttpClient client = new HttpClient();
-        tables = await client.GetFromJsonAsync<List<string>>("https://localhost:44303/api/GetTables");
-    }
-
-    async Task CreateGame()
-    {
-        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        var user = authState.User;
-        playerName = user.Identity.Name;
-
-        await hubConnection.StartAsync();
-        tableId = Guid.NewGuid().ToString();
-
-
-        await hubConnection.SendAsync("JoinTable", tableId);
-        inGame = true;
-    }
-
-    async Task JoinGame(string tableId)
-    {
-        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        var user = authState.User;
-        playerName = user.Identity.Name;
-
-        await hubConnection.StartAsync();
-        this.tableId = tableId;
-        isWhite = false;
-        await hubConnection.SendAsync("JoinTable", tableId);
-        inGame = true;
-    }
-    string playerName = "";
-    string tableId = "";
-    //  string userName = "";
-    List<string> tables = new List<string>();
-    bool isWhite = true;
+    int i = 1;
 
 #line default
 #line hidden
 #nullable disable
-        [global::Microsoft.AspNetCore.Components.InjectAttribute] private AuthenticationStateProvider AuthenticationStateProvider { get; set; }
     }
 }
 #pragma warning restore 1591

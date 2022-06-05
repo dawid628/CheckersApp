@@ -4,7 +4,7 @@
 #pragma warning disable 0649
 #pragma warning disable 0169
 
-namespace CheckersApp.Client.Pages
+namespace CheckersApp.Client.Shared
 {
     #line hidden
     using System;
@@ -90,87 +90,27 @@ using CheckersApp.Client.Shared;
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\Pages\Index - kopiować.razor"
+#line 2 "C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\Shared\Home.razor"
 using Microsoft.AspNetCore.SignalR.Client;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 3 "C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\Pages\Index - kopiować.razor"
+#line 4 "C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\Shared\Home.razor"
 using Microsoft.AspNetCore.Authorization;
 
 #line default
 #line hidden
 #nullable disable
-    [Microsoft.AspNetCore.Components.RouteAttribute("/play")]
-    public partial class Index___kopiować : Microsoft.AspNetCore.Components.ComponentBase
+    [Microsoft.AspNetCore.Components.RouteAttribute("/")]
+    public partial class Home : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
         {
         }
         #pragma warning restore 1998
-#nullable restore
-#line 5 "C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\Pages\Index - kopiować.razor"
-      
-    //[CascadingParameter]
-    //private Task<AuthenticationStateProvider> _authState { get; set; }
-    //  private AuthenticationStateProvider authState;
-
-    HubConnection hubConnection = new HubConnectionBuilder()
-    .WithUrl("https://localhost:44303/connect")
-    .Build();
-
-    protected override async Task OnInitializedAsync()
-    {
-        await RefreshTables();
-    }
-
-    bool inGame = false;
-
-    async Task RefreshTables()
-    {
-        HttpClient client = new HttpClient();
-        tables = await client.GetFromJsonAsync<List<string>>("https://localhost:44303/api/GetTables");
-    }
-
-    async Task CreateGame()
-    {
-        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        var user = authState.User;
-        playerName = user.Identity.Name;
-
-        await hubConnection.StartAsync();
-        tableId = Guid.NewGuid().ToString();
-
-
-        await hubConnection.SendAsync("JoinTable", tableId);
-        inGame = true;
-    }
-
-    async Task JoinGame(string tableId)
-    {
-        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        var user = authState.User;
-        playerName = user.Identity.Name;
-
-        await hubConnection.StartAsync();
-        this.tableId = tableId;
-        isWhite = false;
-        await hubConnection.SendAsync("JoinTable", tableId);
-        inGame = true;
-    }
-    string playerName = "";
-    string tableId = "";
-    //  string userName = "";
-    List<string> tables = new List<string>();
-    bool isWhite = true;
-
-#line default
-#line hidden
-#nullable disable
-        [global::Microsoft.AspNetCore.Components.InjectAttribute] private AuthenticationStateProvider AuthenticationStateProvider { get; set; }
     }
 }
 #pragma warning restore 1591

@@ -1,0 +1,26 @@
+﻿@page "/ranking"
+@using Microsoft.AspNetCore.SignalR.Client
+@using Microsoft.AspNetCore.Authorization;
+@code{
+    Dictionary<string, int> scores = new();
+
+    async Task GetScores()
+    {
+        HttpClient client = new HttpClient();
+        scores = await client.GetFromJsonAsync<Dictionary<string, int>>("https://localhost:44303/api/GetScores");
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetScores();
+    }
+    int i = 1;
+}
+
+<span style="font-size:100px;">Top 10 players</span>
+
+@foreach(var score in scores)
+ {
+    <p><span style="font-weight:bold;">@i.</span>  Name: @score.Key Score: @score.Value </p>
+    i += 1;
+ }

@@ -97,7 +97,7 @@ using CheckersApp.Client.Shared;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 21 "C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\Shared\NavMenu.razor"
+#line 24 "C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\Shared\NavMenu.razor"
        
     private bool collapseNavMenu = true;
 
