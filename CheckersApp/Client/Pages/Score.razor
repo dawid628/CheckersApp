@@ -17,10 +17,25 @@
     int i = 1;
 }
 
-<span style="font-size:100px;">Top 10 players</span>
+<h1>Top 10 players</h1>
 
-@foreach(var score in scores)
- {
-    <p><span style="font-weight:bold;">@i.</span>  Name: @score.Key Score: @score.Value </p>
-    i += 1;
- }
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Score</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var score in scores)
+        {
+            <tr>
+                <th scope="row">@i</th>
+                <td>@score.Key</td>
+                <td>@score.Value</td>
+            </tr>
+            i += 1;
+        }
+    </tbody>
+</table>

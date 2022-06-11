@@ -120,36 +120,43 @@ using Microsoft.AspNetCore.SignalR.Client;
 
     List<Checker> blackCheckers = new List<Checker>();
     List<Checker> whiteCheckers = new List<Checker>();
+    List<Message> messages = new List<Message>();
+    protected string Context { get; set; } = "";
+    string x = "x";
+    string y = "y";
 
     string whitePlayer = "";
     string blackPlayer = "";
 
     protected override void OnInitialized()
     {
+        messages.Add(new Message(x, y));
+        messages.Add(new Message(x, y));
+        messages.Add(new Message(x, y));
         if (IsWhitePlayer)
         {
             whitePlayer = playerName;
-           
+            
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 20 "C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\Checkerboard.razor"
-                                                                               
+#line 27 "C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\Checkerboard.razor"
+                                                                                
         }
 
         if (!IsWhitePlayer)
         {
             blackPlayer = playerName;
- 
+            
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 26 "C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\Checkerboard.razor"
-                                                                               
+#line 33 "C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\Checkerboard.razor"
+                                                                                          
         }
         for (int i = 0; i < 3; i++)
         {
@@ -179,193 +186,188 @@ using Microsoft.AspNetCore.SignalR.Client;
             }
         }
 
-        
+        HubConnection.On<int, int, int, int>("Move", ServerMove);
+        HubConnection.On<string, string>("NewMessage", (playername, context) => {
+            messages.Add(new Message(playername, context));
+        });
 
-#line default
-#line hidden
-#nullable disable
-#nullable restore
-#line 66 "C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\Checkerboard.razor"
-                 
-
-    HubConnection.On<int, int, int, int>("Move", ServerMove);
-
-    void ServerMove(int previousColumn, int previousRow, int newColumn, int newRow)
-    {
-        var checker = blackCheckers.FirstOrDefault(n => n.Column == previousColumn && n.Row == previousRow);
-        if (checker == null)
+        void ServerMove(int previousColumn, int previousRow, int newColumn, int newRow)
         {
-            checker = whiteCheckers.FirstOrDefault(n => n.Column == previousColumn && n.Row == previousRow);
-        }
-        activeChecker = checker;
-        EvaluateCheckerSpots();
-        MoveChecker(newRow, newColumn);
-    }
-}
-
-Checker activeChecker = null;
-List<(int row, int column)> cellsPossible = new();
-string winner = "";
-int emptyMoves = 0;
-
-void EvaluateGameStatus()
-{
-    if (blackCheckers.Count == 0)
-    {
-        if (IsWhitePlayer)
-        {
-            winner = "You won";
-            HubConnection.SendAsync("UpdateScore", playerName, true);
-        }
-        if (!IsWhitePlayer)
-        {
-            winner = "You lost";
-            HubConnection.SendAsync("UpdateScore", playerName, false);
+            var checker = blackCheckers.FirstOrDefault(n => n.Column == previousColumn && n.Row == previousRow);
+            if (checker == null)
+            {
+                checker = whiteCheckers.FirstOrDefault(n => n.Column == previousColumn && n.Row == previousRow);
+            }
+            activeChecker = checker;
+            EvaluateCheckerSpots();
+            MoveChecker(newRow, newColumn);
         }
 
-        gameOn = false;
     }
-    if (whiteCheckers.Count == 0)
-    {
-        if (!IsWhitePlayer)
-        {
-            winner = "You won";
-            HubConnection.SendAsync("UpdateScore", playerName, true);
-        }
-        if (IsWhitePlayer)
-        {
-            winner = "You lost";
-            HubConnection.SendAsync("UpdateScore", playerName, false);
-        }
 
-        gameOn = false;
-    }
-    if (emptyMoves == 20)
-    {
-        gameOn = false;
-        winner = "draw";
-    }
-}
+    Checker activeChecker = null;
+    List<(int row, int column)> cellsPossible = new();
+    string winner = "";
+    int emptyMoves = 0;
 
-void EvaluateCheckerSpots()
-{
-    cellsPossible.Clear();
-    if (activeChecker != null)
+    void EvaluateGameStatus()
     {
-        List<int> rowsPossible = new List<int>();
-        if (activeChecker.Direction == CheckerDirection.Down ||
-            activeChecker.Direction == CheckerDirection.Both)
+        if (blackCheckers.Count == 0)
         {
-            rowsPossible.Add(activeChecker.Row + 1);
-        }
-        if (activeChecker.Direction == CheckerDirection.Up ||
-            activeChecker.Direction == CheckerDirection.Both)
-        {
-            rowsPossible.Add(activeChecker.Row - 1);
-        }
+            if (IsWhitePlayer)
+            {
+                winner = "You won";
+                HubConnection.SendAsync("UpdateScore", playerName, true);
+            }
+            if (!IsWhitePlayer)
+            {
+                winner = "You lost";
+                HubConnection.SendAsync("UpdateScore", playerName, false);
+            }
 
-        foreach (var row in rowsPossible)
+            gameOn = false;
+        }
+        if (whiteCheckers.Count == 0)
         {
-            EvaluateSpot(row, activeChecker.Column - 1);
-            EvaluateSpot(row, activeChecker.Column + 1);
+            if (!IsWhitePlayer)
+            {
+                winner = "You won";
+                HubConnection.SendAsync("UpdateScore", playerName, true);
+            }
+            if (IsWhitePlayer)
+            {
+                winner = "You lost";
+                HubConnection.SendAsync("UpdateScore", playerName, false);
+            }
+
+            gameOn = false;
+        }
+        if (emptyMoves == 20)
+        {
+            gameOn = false;
+            winner = "draw";
         }
     }
-}
 
-void EvaluateSpot(int row, int column, bool firstTime = true)
-{
-    var blackChecker = blackCheckers.FirstOrDefault(
-        n => n.Column == column && n.Row == row);
-
-    var whiteChecker = whiteCheckers.FirstOrDefault(
-        n => n.Column == column && n.Row == row);
-
-    if (blackChecker == null && whiteChecker == null)
+    void EvaluateCheckerSpots()
     {
-        cellsPossible.Add((row, column));
-    }
-    else if (firstTime)
-    {
-        // can i jump this checker?
-        if ((whiteTurn && blackChecker != null) ||
-            (!whiteTurn && whiteChecker != null))
+        cellsPossible.Clear();
+        if (activeChecker != null)
         {
-            int columnDifference = column - activeChecker.Column;
-            int rowDifference = row - activeChecker.Row;
+            List<int> rowsPossible = new List<int>();
+            if (activeChecker.Direction == CheckerDirection.Down ||
+                activeChecker.Direction == CheckerDirection.Both)
+            {
+                rowsPossible.Add(activeChecker.Row + 1);
+            }
+            if (activeChecker.Direction == CheckerDirection.Up ||
+                activeChecker.Direction == CheckerDirection.Both)
+            {
+                rowsPossible.Add(activeChecker.Row - 1);
+            }
 
-            EvaluateSpot(row + rowDifference, column + columnDifference, false);
+            foreach (var row in rowsPossible)
+            {
+                EvaluateSpot(row, activeChecker.Column - 1);
+                EvaluateSpot(row, activeChecker.Column + 1);
+            }
         }
     }
-}
 
-void MoveChecker(int row, int column)
-{
-    bool canMoveHere = cellsPossible.Contains((row, column));
-    if (!canMoveHere)
+    void EvaluateSpot(int row, int column, bool firstTime = true)
     {
-        return;
-    }
-    else
-    {
-        emptyMoves++;
-    }
-
-    if (Math.Abs(activeChecker.Column - column) == 2)
-    {
-        // we jumped something
-        int jumpedColumn = (activeChecker.Column + column) / 2;
-        int jumpedRow = (activeChecker.Row + row) / 2;
-
         var blackChecker = blackCheckers.FirstOrDefault(
-            n => n.Row == jumpedRow && n.Column == jumpedColumn);
-
-        if (blackChecker != null)
-            blackCheckers.Remove(blackChecker);
+            n => n.Column == column && n.Row == row);
 
         var whiteChecker = whiteCheckers.FirstOrDefault(
-            n => n.Row == jumpedRow && n.Column == jumpedColumn);
+            n => n.Column == column && n.Row == row);
 
-        if (whiteChecker != null)
-            whiteCheckers.Remove(whiteChecker);
-        emptyMoves = 0;
+        if (blackChecker == null && whiteChecker == null)
+        {
+            cellsPossible.Add((row, column));
+        }
+        else if (firstTime)
+        {
+            // can i jump this checker?
+            if ((whiteTurn && blackChecker != null) ||
+                (!whiteTurn && whiteChecker != null))
+            {
+                int columnDifference = column - activeChecker.Column;
+                int rowDifference = row - activeChecker.Row;
+
+                EvaluateSpot(row + rowDifference, column + columnDifference, false);
+            }
+        }
     }
-    HubConnection.SendAsync("Move", TableId, activeChecker.Column, activeChecker.Row, column, row);
 
-    activeChecker.Column = column;
-    activeChecker.Row = row;
-
-    if (activeChecker.Row == 0 && activeChecker.Color == "white")
+    void MoveChecker(int row, int column)
     {
-        activeChecker.Direction = CheckerDirection.Both;
+        bool canMoveHere = cellsPossible.Contains((row, column));
+        if (!canMoveHere)
+        {
+            return;
+        }
+        else
+        {
+            emptyMoves++;
+        }
+
+        if (Math.Abs(activeChecker.Column - column) == 2)
+        {
+            // we jumped something
+            int jumpedColumn = (activeChecker.Column + column) / 2;
+            int jumpedRow = (activeChecker.Row + row) / 2;
+
+            var blackChecker = blackCheckers.FirstOrDefault(
+                n => n.Row == jumpedRow && n.Column == jumpedColumn);
+
+            if (blackChecker != null)
+                blackCheckers.Remove(blackChecker);
+
+            var whiteChecker = whiteCheckers.FirstOrDefault(
+                n => n.Row == jumpedRow && n.Column == jumpedColumn);
+
+            if (whiteChecker != null)
+                whiteCheckers.Remove(whiteChecker);
+            emptyMoves = 0;
+        }
+        HubConnection.SendAsync("Move", TableId, activeChecker.Column, activeChecker.Row, column, row);
+
+        activeChecker.Column = column;
+        activeChecker.Row = row;
+
+        if (activeChecker.Row == 0 && activeChecker.Color == "white")
+        {
+            activeChecker.Direction = CheckerDirection.Both;
+        }
+        if (activeChecker.Row == 7 && activeChecker.Color == "black")
+        {
+            activeChecker.Direction = CheckerDirection.Both;
+        }
+
+        activeChecker = null;
+        whiteTurn = !whiteTurn;
+        EvaluateGameStatus();
+        EvaluateCheckerSpots();
+        StateHasChanged();
     }
-    if (activeChecker.Row == 7 && activeChecker.Color == "black")
+
+    void CheckerClicked(Checker checker)
     {
-        activeChecker.Direction = CheckerDirection.Both;
+        if (whiteTurn != IsWhitePlayer)
+        {
+            return;
+        }
+        if (whiteTurn && checker.Color == "black")
+            return;
+        if (!whiteTurn && checker.Color == "white")
+            return;
+        activeChecker = checker;
+        EvaluateCheckerSpots();
     }
 
-    activeChecker = null;
-    whiteTurn = !whiteTurn;
-    EvaluateGameStatus();
-    EvaluateCheckerSpots();
-    StateHasChanged();
-}
-
-void CheckerClicked(Checker checker)
-{
-    if (whiteTurn != IsWhitePlayer)
-    {
-        return;
-    }
-    if (whiteTurn && checker.Color == "black")
-        return;
-    if (!whiteTurn && checker.Color == "white")
-        return;
-    activeChecker = checker;
-    EvaluateCheckerSpots();
-}
-
-bool whiteTurn = true;
-bool gameOn = true;
+    bool whiteTurn = true;
+    bool gameOn = true;
 
 #line default
 #line hidden

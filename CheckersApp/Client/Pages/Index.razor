@@ -56,6 +56,8 @@
     List<string> tables = new List<string>();
     bool isWhite = true;
 }
+@if (!inGame) {<h1>Join or create game</h1> }
+    
 <AuthorizeView>
     <Authorized>
         @if (inGame)
@@ -64,10 +66,10 @@
         }
         else
         {
-            <button @onclick="CreateGame">Create Game</button>
+            <button @onclick="CreateGame" class="btn btn-primary btn-lg" style="padding:15px;margin-top:20px;">Create Game</button><br />
             @foreach (string table in tables)
             {
-                <button @onclick="() => JoinGame(table)">Join Game @table</button>
+                <button @onclick="() => JoinGame(table)" class="btn btn-primary btn-lg" style="padding:15px;margin-top:20px;">Join Game @table</button><br />
             }
         }
     </Authorized>

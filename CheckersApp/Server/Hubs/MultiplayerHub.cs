@@ -71,6 +71,10 @@ namespace CheckersApp.Server.Hubs
             }
             await userManager.UpdateAsync(user);
         }
+        public async Task Message(string tableId, string playername, string context)
+        {
+            await Clients.GroupExcept(tableId, Context.ConnectionId).SendAsync("NewMessage", playername, context);
+        }
 
 /*        public async Task AddWhitePlayer(string tableId, string userName)
         {

@@ -215,3 +215,4 @@ C:\Users\User\source\repos\CheckersApp\CheckersApp\Server\bin\Debug\net5.0\Micro
 C:\Users\User\source\repos\CheckersApp\CheckersApp\Server\bin\Debug\net5.0\Microsoft.AspNetCore.SignalR.Common.dll
 C:\Users\User\source\repos\CheckersApp\CheckersApp\Server\bin\Debug\net5.0\Microsoft.AspNetCore.SignalR.Protocols.Json.dll
 C:\Users\User\source\repos\CheckersApp\CheckersApp\Server\bin\Debug\net5.0\Microsoft.Extensions.Primitives.dll
+C:\Users\User\source\repos\CheckersApp\CheckersApp\Server\obj\Debug\net5.0\Razor\Areas\Identity\Pages\Account\ConfirmEmail.cshtml.g.cs
