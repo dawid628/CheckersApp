@@ -1,4 +1,15 @@
-﻿.row{
+﻿.chat {
+    border: 1px solid black;
+    width: 640px;
+    height: 640px;
+    float: right;
+    margin-right: 60px;
+}
+.message {
+    font-size:140%;
+}
+
+.row{
 }
 .cell{
     height: 80px;
@@ -46,6 +57,127 @@
         margin-top: 10px;
         display: block;
     }
-.chat{
+
+.card {
+    border: 0;
+    border-radius: 0px;
+    margin-bottom: 30px;
+    -webkit-box-shadow: 0 2px 3px rgba(0,0,0,0.03);
+    box-shadow: 0 2px 3px rgba(0,0,0,0.03);
+    -webkit-transition: .5s;
+    transition: .5s;
+}
+
+body {
+    background-color: #f9f9fa
+}
+
+.card-header:first-child {
+    border-radius: calc(.25rem - 1px) calc(.25rem - 1px) 0 0;
+}
+
+
+.card-header {
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: #F5F5F5;
+    border-bottom: 1px solid rgba(77,82,89,0.07);
+}
+
+    .card-header .card-title {
+        padding: 0;
+    }
+
+h4.card-title {
+    font-size: 25px;
+    font-style: italic;
+}
+
+.card-title {
+    font-family: Roboto,sans-serif;
+    font-weight: 300;
+    margin-bottom: 0;
+    padding: 10px 10px;
+}
+
+.ps-container {
+    -ms-touch-action: auto;
+    touch-action: auto;
+    overflow: hidden !important;
+    -ms-overflow-style: none;
+}
+
+.media-chat {
+    padding-right: 64px;
+    border: 1px solid white;
+}
+
+.media {
+    padding: 16px 12px;
+    -webkit-transition: background-color .2s linear;
+    transition: background-color .2s linear;
+}
+
+.avatar-img {
+    float:left;
+    margin-right:2%;
+}
+
+.media-chat .media-body {
+    -webkit-box-flex: initial;
+    flex: initial;
+    display: table;
+}
+
+.media-body {
+    min-width: 0;
+}
+
+.media-chat .media-body p {
+    position: relative;
+    margin: 4px 0;
+    background-color: #f5f6f7;
+    border-radius: 3px;
+    font-weight: 100;
+    color: #9b9b9b;
+}
+
+.media {
+    padding: 16px 12px;
+    -webkit-transition: background-color .2s linear;
+    transition: background-color .2s linear;
+}
+
+.media {
+    padding: 16px 12px;
+    -webkit-transition: background-color .2s linear;
+    transition: background-color .2s linear;
+}
+
+.media-chat {
+    position: relative;
+    padding: 6px 8px;
+    margin: 4px 0;
+    background-color: #f5f6f7;
+    border-radius: 3px;
+    padding-right: 64px;
+    margin-bottom: 0;
+}
+
+.publisher {
+    display: flex;
+    align-items: center;
+    border-top: 2px solid white;
+    width: 638px;
+}
+
+.publisher-input {
     border: 1px solid black;
+    background-color: white;
+    width:100%;
 }

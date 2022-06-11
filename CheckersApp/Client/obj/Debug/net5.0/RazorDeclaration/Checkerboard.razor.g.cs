@@ -111,7 +111,7 @@ using Microsoft.AspNetCore.SignalR.Client;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 3 "C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\Checkerboard.razor"
+#line 4 "C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\Checkerboard.razor"
        
     [Parameter] public HubConnection HubConnection { get; set; }
     [Parameter] public string TableId { get; set; }
@@ -121,18 +121,13 @@ using Microsoft.AspNetCore.SignalR.Client;
     List<Checker> blackCheckers = new List<Checker>();
     List<Checker> whiteCheckers = new List<Checker>();
     List<Message> messages = new List<Message>();
-    protected string Context { get; set; } = "";
-    string x = "x";
-    string y = "y";
 
+    protected string Context { get; set; } = "";
     string whitePlayer = "";
     string blackPlayer = "";
 
     protected override void OnInitialized()
     {
-        messages.Add(new Message(x, y));
-        messages.Add(new Message(x, y));
-        messages.Add(new Message(x, y));
         if (IsWhitePlayer)
         {
             whitePlayer = playerName;
@@ -142,7 +137,7 @@ using Microsoft.AspNetCore.SignalR.Client;
 #line hidden
 #nullable disable
 #nullable restore
-#line 27 "C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\Checkerboard.razor"
+#line 23 "C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\Checkerboard.razor"
                                                                                 
         }
 
@@ -155,7 +150,7 @@ using Microsoft.AspNetCore.SignalR.Client;
 #line hidden
 #nullable disable
 #nullable restore
-#line 33 "C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\Checkerboard.razor"
+#line 29 "C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\Checkerboard.razor"
                                                                                           
         }
         for (int i = 0; i < 3; i++)
@@ -187,8 +182,9 @@ using Microsoft.AspNetCore.SignalR.Client;
         }
 
         HubConnection.On<int, int, int, int>("Move", ServerMove);
-        HubConnection.On<string, string>("NewMessage", (playername, context) => {
+        HubConnection.On<string, string>("Message", (playername, context) => {
             messages.Add(new Message(playername, context));
+            refreshMessages();
         });
 
         void ServerMove(int previousColumn, int previousRow, int newColumn, int newRow)
@@ -209,6 +205,10 @@ using Microsoft.AspNetCore.SignalR.Client;
     List<(int row, int column)> cellsPossible = new();
     string winner = "";
     int emptyMoves = 0;
+    public void refreshMessages()
+    {
+        StateHasChanged();
+    }
 
     void EvaluateGameStatus()
     {

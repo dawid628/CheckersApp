@@ -207,12 +207,12 @@
       "netstandard.dll": "sha256-Ttq9E+RchoLMvC6pS8ktXuaz1r51vG7wSm1emPBPRrk=",
       "System.Private.CoreLib.dll": "sha256-7y7hjQvy9SAXBmGIcqlrFwPQioCDSax5WwjUDJYfRAk=",
       "CheckersApp.Shared.dll": "sha256-b7aOyWtw4Purmw6MDLGmwk\/pTt3Osv8wPDy6odkIK7Y=",
-      "CheckersApp.Client.dll": "sha256-DQ8863HmCNZn8ZH54cw\/YRc9LAHBLqkVJ6vE5tBWXoI="
+      "CheckersApp.Client.dll": "sha256-mhG5btpd0hgH+p\/+5s5aWnZKtdFK903g+R7vPTyRM54="
     },
     "lazyAssembly": null,
     "pdb": {
       "CheckersApp.Shared.pdb": "sha256-fcu4wX6Jfk3\/JMcR0WTZIQEfbpqn4\/vz8ywuCAnURo8=",
-      "CheckersApp.Client.pdb": "sha256-HcNFGrTUX7TNtAIDd75lHFtmer6eN86GgInx\/ZJNAaA="
+      "CheckersApp.Client.pdb": "sha256-Z9cAolSxNg0qGPO3wZistK9kzEWAqs5KYHWjZbOVssc="
     },
     "runtime": {
       "dotnet.timezones.blat": "sha256-jWuZI+z9wt0OfCMj+W5wh3HN+Ye6efC6YfCUWbBHBa8=",

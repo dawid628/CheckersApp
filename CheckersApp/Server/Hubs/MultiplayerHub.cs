@@ -13,12 +13,10 @@ namespace CheckersApp.Server.Hubs
     {
         private readonly TableManager tableManager;
         private readonly UserManager<ApplicationUser> userManager;
-        private readonly List<PlayersManager> playersTable;
         public MultiplayerHub(TableManager tableManager, UserManager<ApplicationUser> userManager)
         {
             this.tableManager = tableManager;
             this.userManager = userManager;
-            this.playersTable = new List<PlayersManager>();
         }
 
         public async Task Move(string tableId, int previousColumn, int previousRow, int newColumn, int newRow)
@@ -73,7 +71,8 @@ namespace CheckersApp.Server.Hubs
         }
         public async Task Message(string tableId, string playername, string context)
         {
-            await Clients.GroupExcept(tableId, Context.ConnectionId).SendAsync("NewMessage", playername, context);
+            await Clients.Group(tableId).SendAsync("Message", playername, context);
+           
         }
 
 /*        public async Task AddWhitePlayer(string tableId, string userName)

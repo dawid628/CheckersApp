@@ -1,5 +1,6 @@
 ﻿@using Data
 @using Microsoft.AspNetCore.SignalR.Client
+
 @code {
     [Parameter] public HubConnection HubConnection { get; set; }
     [Parameter] public string TableId { get; set; }
@@ -9,18 +10,13 @@
     List<Checker> blackCheckers = new List<Checker>();
     List<Checker> whiteCheckers = new List<Checker>();
     List<Message> messages = new List<Message>();
-    protected string Context { get; set; } = "";
-    string x = "x";
-    string y = "y";
 
+    protected string Context { get; set; } = "";
     string whitePlayer = "";
     string blackPlayer = "";
 
     protected override void OnInitialized()
     {
-        messages.Add(new Message(x, y));
-        messages.Add(new Message(x, y));
-        messages.Add(new Message(x, y));
         if (IsWhitePlayer)
         {
             whitePlayer = playerName;
@@ -61,8 +57,9 @@
         }
 
         HubConnection.On<int, int, int, int>("Move", ServerMove);
-        HubConnection.On<string, string>("NewMessage", (playername, context) => {
+        HubConnection.On<string, string>("Message", (playername, context) => {
             messages.Add(new Message(playername, context));
+            refreshMessages();
         });
 
         void ServerMove(int previousColumn, int previousRow, int newColumn, int newRow)
@@ -83,6 +80,10 @@
     List<(int row, int column)> cellsPossible = new();
     string winner = "";
     int emptyMoves = 0;
+    public void refreshMessages()
+    {
+        StateHasChanged();
+    }
 
     void EvaluateGameStatus()
     {
@@ -275,15 +276,33 @@
         </div>
     }
 </div>
-<div class="chat" style="width:640px;height:640px;float:right;border: 1px solid black;margin-right:60px;">
-    @foreach(Message message in messages)
-            {
-    <p>@message.player: @message.context</p>
-            }
-<div>
-    <b>Message :</b> <input value="@Context" @onchange="@(e => { Context = e.Value.ToString(); })" />
-    <button class="btn btn-default" @onclick="@(() => HubConnection.SendAsync("Message", TableId, @playerName, @Context))">Send</button>
-</div>
+<div class="chat">
+    <div class="card-header">
+        <h4 class="card-title"><strong>Game chat</strong></h4>
+    </div>
+    <div class="ps-container " style="overflow-y: scroll !important; height:521px !important;">
+        @foreach (Message message in messages)
+         {
+            <div class="media media-chat">
+                <div class="media-body">
+                    <p>@message.player:</p>
+                    @message.context
+                </div>
+            </div>
+         }
+        <div class="ps-scrollbar-x-rail">
+            <div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+        </div>
+        <div class="ps-scrollbar-y-rail" style="top: 0px; height: 0px; right: 2px;">
+            <div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 2px;">
+            </div>
+        </div>
+    </div>
+    <div class="publisher">
+        <span class="avatar-img"><img class="avatar avatar-xs" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="..."></span>
+        <input class="publisher-input" placeholder="write your message" value="@Context" @onchange="@(e => { Context = e.Value.ToString(); })" />
+        <button class="btn btn-primary" style="float:right;margin:1%;" @onclick="@(() => HubConnection.SendAsync("Message", TableId, @playerName, @Context))">Send</button>
+    </div>
 </div>
 @if (gameOn == false)
 {
