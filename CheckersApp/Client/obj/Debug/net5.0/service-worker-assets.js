@@ -5,7 +5,7 @@
       "url": "_content\/Microsoft.AspNetCore.Components.WebAssembly.Authentication\/AuthenticationService.js"
     },
     {
-      "hash": "sha256-Jy4W5GswrN0kjlejaMDtR1r8IAfBa11uSVRwuWhjOWA=",
+      "hash": "sha256-dUn5TwgUygc1uTzf\/kp0dlR3TSjh8OaOhhH4++Zwp8o=",
       "url": "_framework\/blazor.boot.json"
     },
     {
@@ -833,19 +833,19 @@
       "url": "_framework\/dotnet.5.0.16.js"
     },
     {
-      "hash": "sha256-b7aOyWtw4Purmw6MDLGmwk\/pTt3Osv8wPDy6odkIK7Y=",
+      "hash": "sha256-Yxq7A40H3yKzk19nXVm5bwQn1pFC+95T1hNQXhV0xdY=",
       "url": "_framework\/CheckersApp.Shared.dll"
     },
     {
-      "hash": "sha256-fcu4wX6Jfk3\/JMcR0WTZIQEfbpqn4\/vz8ywuCAnURo8=",
+      "hash": "sha256-2QvH+7DFuWODc7S+rGyKcnexZP7Snt11T7gfWd1\/aLc=",
       "url": "_framework\/CheckersApp.Shared.pdb"
     },
     {
-      "hash": "sha256-mhG5btpd0hgH+p\/+5s5aWnZKtdFK903g+R7vPTyRM54=",
+      "hash": "sha256-I9c6LWrEXzWPZuBmpEZuZS1JKD1QF23vZKrfYBWLh0Y=",
       "url": "_framework\/CheckersApp.Client.dll"
     },
     {
-      "hash": "sha256-Z9cAolSxNg0qGPO3wZistK9kzEWAqs5KYHWjZbOVssc=",
+      "hash": "sha256-0UHUY1juEuqyj1nbEABxSKEjEHE\/371quVLuFQld\/xE=",
       "url": "_framework\/CheckersApp.Client.pdb"
     },
     {
@@ -1677,7 +1677,7 @@
       "url": "_framework\/dotnet.5.0.16.js.gz"
     },
     {
-      "hash": "sha256-uS69zSo4BnQqglX6OMPjfg\/nuvLupPVvDSCfjOMQYe4=",
+      "hash": "sha256-zsK+YvlCN\/kJrHcefPaHvV3ZeE5Tm+qnpNi9BlWlQ4Y=",
       "url": "_framework\/CheckersApp.Shared.dll.gz"
     },
     {
@@ -1693,7 +1693,7 @@
       "url": "css\/bootstrap\/bootstrap.min.css.map"
     },
     {
-      "hash": "sha256-WUkER9LAboqCekRGfG+QFAZqZ5HvxiUpQsa3oINeQ60=",
+      "hash": "sha256-niLvH1vLJZCXtO\/GgPe679HzRcdtyhyD5Krwclq5S1s=",
       "url": "css\/checkers.css"
     },
     {
@@ -1737,7 +1737,7 @@
       "url": "icon-512.png"
     },
     {
-      "hash": "sha256-EVsAzk+oDk6vAuUKtXAS3JGcs+Um02doLwIvzQDkzhE=",
+      "hash": "sha256-UnXQTVgtqrQEla89iGWGE7m8ouRw0PBhid3Gqk8B5hM=",
       "url": "index.html"
     },
     {
@@ -1753,5 +1753,5 @@
       "url": "CheckersApp.Client.bundle.scp.css"
     }
   ],
-  "version": "1V\/uLPTy"
+  "version": "LdGWhK5L"
 };

@@ -1,0 +1,57 @@
+﻿@page "/addpost"
+@using Microsoft.AspNetCore.SignalR.Client
+@using Microsoft.AspNetCore.Authorization;
+@using System.ComponentModel.DataAnnotations;
+@using CheckersApp.Shared.Models;
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager NavManager
+@code{
+    List<KeyValuePair<string, string>> articles = new();
+    HttpClient client = new HttpClient();
+    string userName = "";
+    async Task GetPosts()
+    {
+        articles = await client.GetFromJsonAsync<List<KeyValuePair<string, string>>>("https://localhost:44303/post/GetPosts");
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetPosts();
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        userName = user.Identity.Name;
+    }
+
+    class Post
+    {
+        [Required]
+        public string Title { get; set; }
+        [Required]
+        public string Body { get; set; }
+        public string Username { get; set; }
+    }
+
+    PostModel post = new PostModel();
+
+    public async Task AddPost()
+    {
+        post.Username = userName;
+        if(post != null)
+        {
+            await client.PutAsJsonAsync("https://localhost:44303/post/CreatePost", post);
+        }
+
+        NavManager.NavigateTo("/");
+    }
+}
+<h1>Stwórz nowy artykuł</h1>
+<br />
+<EditForm Model="@post" OnValidSubmit="@AddPost">
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+    <ValidationSummary></ValidationSummary>
+    <label>Tytuł:</label><br />
+    <InputText @bind-Value="@post.Title"></InputText><br />
+    <label>Treść:</label><br />
+    <InputTextArea @bind-Value="@post.Body"></InputTextArea><br />
+    <input class="btn btn-primary btn-lg" type="submit" value="Dodaj" />
+</EditForm>

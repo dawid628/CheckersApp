@@ -1,0 +1,13 @@
+﻿@page "/administration"
+@using Microsoft.AspNetCore.SignalR.Client
+@using Microsoft.AspNetCore.Authorization;
+@attribute [Authorize(Roles="administrator,moderator")]
+<h1 class="pageheader">Panel zarządzania</h1>
+
+<a href="administrationposts" class="btn btn-primary btn-lg" style="margin-bottom:2%;">Aktualności</a><br />
+<AuthorizeView Roles="administrator">
+    <Authorized>
+        <a href="administrationusers" class="btn btn-primary btn-lg">Uprawnienia</a>
+    </Authorized>
+</AuthorizeView>
+

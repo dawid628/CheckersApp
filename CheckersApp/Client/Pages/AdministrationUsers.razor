@@ -1,0 +1,79 @@
+﻿@page "/administrationusers"
+@using Microsoft.AspNetCore.Authorization;
+@using Microsoft.AspNetCore.SignalR.Client
+@attribute [Authorize(Roles = "administrator")]
+@code{
+    Dictionary<string, string> users = new();
+    Dictionary<string, string> moderators = new();
+
+    async Task GetUsers()
+    {
+        HttpClient client = new HttpClient();
+        users = await client.GetFromJsonAsync<Dictionary<string, string>>("https://localhost:44303/api/GetUsers");
+        moderators = await client.GetFromJsonAsync<Dictionary<string, string>>("https://localhost:44303/api/GetModerators");
+    }
+
+    async Task AddPermission(string id)
+    {
+        HttpClient client = new HttpClient();
+        await client.GetFromJsonAsync<bool>("https://localhost:44303/api/AddPermission/{id}");
+    }
+
+    async Task DeletePermission(string id)
+    {
+        HttpClient client = new HttpClient();
+        await client.GetFromJsonAsync<bool>("https://localhost:44303/api/DeletePermission/{id}");
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetUsers();
+    }
+}
+<h1 class="pageheader">Zarządzanie użytkownikami</h1>
+@if (users.Count() > 0)
+{
+    <h2>Zwykli użytkownicy:</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Nazwa użytkownika</th>
+                <th scope="col">Uprawnienia</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in users)
+            {
+                <tr>
+                    <th>@user.Key</th>
+                    <td>@user.Value</td>
+                    <td><a href="https://localhost:44303/api/AddPermission/@user.Key">Dodaj moderatora</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@if (moderators.Count() > 0)
+{
+    <h2>Moderatorzy:</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Nazwa użytkownika</th>
+                <th scope="col">Uprawnienia</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var mod in moderators)
+            {
+                <tr>
+                    <th>@mod.Key</th>
+                    <td>@mod.Value</td>
+                    <td><a href="https://localhost:44303/api/DeletePermission/@mod.Key">Usuń moderatora</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

@@ -83,10 +83,20 @@ namespace CheckersApp.Server.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
+                    string UserRole = "user";
                     _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var res = await _userManager.ConfirmEmailAsync(user, code);
+                    if (user.UserName.Contains("admin"))
+                    {
+                        UserRole = "administrator";
+                    }
+                    if (user.UserName.Contains("moderator"))
+                    {
+                        UserRole = "moderator";
+                    }
+                    await _userManager.AddToRoleAsync(user, UserRole);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Content("~/");
 

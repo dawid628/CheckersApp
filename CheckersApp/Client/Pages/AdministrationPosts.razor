@@ -1,0 +1,46 @@
+﻿@page "/administrationposts"
+@using Microsoft.AspNetCore.Authorization;
+@using Microsoft.AspNetCore.SignalR.Client
+@code{
+    List<KeyValuePair<int, string>> posts = new();
+    List<KeyValuePair<int, string>> titles = new();
+    HttpClient client = new HttpClient();
+
+    async Task GetPostsData()
+    {
+
+        posts = await client.GetFromJsonAsync<List<KeyValuePair<int, string>>>("https://localhost:44303/post/GetPostsData");
+        titles = await client.GetFromJsonAsync<List<KeyValuePair<int, string>>>("https://localhost:44303/post/GetPostsTitles");
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetPostsData();
+    }
+}
+<h1 class="pageheader">Zarządzanie aktualnościami</h1>
+<a href="addpost" class="btn btn-primary btn-lg" style="margin-bottom:1%;">Nowy artykuł</a>
+@if (posts.Count() > 0)
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Autor</th>
+                <th scope="col">Tytuł</th>
+                <th scope="col">Akcje</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var post in posts)
+            {
+                <tr>
+                    <td>@post.Key</td>
+                    <td>@post.Value</td>
+                    <td>@titles.First(i => i.Key ==  post.Key).Value</td>
+                    <td><a href="https://localhost:44303/post/DeletePost/@post.Key">Usuń</a></td>
+                </tr>
+                }
+        </tbody>
+    </table>
+}

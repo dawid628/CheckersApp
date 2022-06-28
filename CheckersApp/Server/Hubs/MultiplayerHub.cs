@@ -13,11 +13,14 @@ namespace CheckersApp.Server.Hubs
     {
         private readonly TableManager tableManager;
         private readonly UserManager<ApplicationUser> userManager;
-        public MultiplayerHub(TableManager tableManager, UserManager<ApplicationUser> userManager)
+        private GamesStorage storage;
+
+        public MultiplayerHub(TableManager tableManager, UserManager<ApplicationUser> userManager, GamesStorage storage)
         {
             this.tableManager = tableManager;
             this.userManager = userManager;
-        }
+            this.storage = storage;
+    }
 
         public async Task Move(string tableId, int previousColumn, int previousRow, int newColumn, int newRow)
         {
@@ -26,24 +29,36 @@ namespace CheckersApp.Server.Hubs
         public async Task Delete(string tableId)
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, tableId);
+            var game = storage.games.Find(k => k.Key == tableId);
+            storage.games.Remove(game);
             tableManager.Tables.Remove(tableId);
+            var name = tableManager.Names.Find(k => k.Key == tableId);
+            tableManager.Names.Remove(name);       
         }
 
-        public async Task JoinTable(string tableId) 
-        {
+        public async Task JoinTable(string tableId, string playername) 
+        {  
             if(tableManager.Tables.ContainsKey(tableId))
             {
-                if(tableManager.Tables[tableId] < 2) 
+                if(tableManager.Tables[tableId] < 2)
                 {
                     await Groups.AddToGroupAsync(Context.ConnectionId, tableId);
+                  
                     await Clients.GroupExcept(tableId, Context.ConnectionId).SendAsync("TableJoined");
                     tableManager.Tables[tableId]++;
+                    var game = storage.games.Find(r => r.Key == tableId);
+                    if (game.Value == playername)
+                    {
+                        await Clients.GroupExcept(tableId, Context.ConnectionId).SendAsync("SamePlayer");
+                    }
                 }
             }
-            else 
+            else
             {
                 await Groups.AddToGroupAsync(Context.ConnectionId, tableId);
                 tableManager.Tables.Add(tableId, 1);
+                tableManager.Names.Add(new KeyValuePair<string, string>(tableId, playername));
+                storage.games.Add(new KeyValuePair<string, string>(tableId, playername));
             }
         }
 
@@ -74,44 +89,5 @@ namespace CheckersApp.Server.Hubs
             await Clients.Group(tableId).SendAsync("Message", playername, context);
            
         }
-
-/*        public async Task AddWhitePlayer(string tableId, string userName)
-        {
-            var user = await userManager.FindByNameAsync(userName);
-
-            var table = playersTable.FirstOrDefault(a => a.tableId == tableId);
-            if (table != null)
-            {
-                table.whitePlayer = userName;
-            }
-            if (table == null)
-            {
-                PlayersManager man = new PlayersManager();
-                man.tableId = tableId;
-                man.whitePlayer = userName;
-                playersTable.Add(man);
-                await Clients.GroupExcept(tableId, Context.ConnectionId).SendAsync("MamyTo");
-            }
-
-        }
-        public async Task AddBlackPlayer(string tableId, string userName)
-        {
-            var user = await userManager.FindByNameAsync(userName);
-
-            var table = playersTable.Find(a => a.tableId == tableId);
-            if (table != null)
-            {
-                table.blackPlayer = userName;
-            }
-            if (table == null)
-            {
-                playersTable.Add(new PlayersManager
-                {
-                    tableId = tableId,
-                    blackPlayer = userName,
-                    whitePlayer = ""
-                });
-            }
-        }*/
     }
 }

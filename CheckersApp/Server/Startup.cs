@@ -30,7 +30,8 @@ namespace CheckersApp.Server
         {
             services.AddSignalR();
             services.AddSingleton<TableManager>();
-/*            services.AddSingleton<ScoreManager>();*/
+            services.AddSingleton<GamesStorage>();
+            /*            services.AddSingleton<ScoreManager>();*/
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
@@ -42,8 +43,27 @@ namespace CheckersApp.Server
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            /*services.AddAuthorization(options => {
+                options.AddPolicy("administrator",
+                    builder => builder.RequireRole("administrator", "moderator"));
+                options.AddPolicy("user",
+                    builder => builder.RequireRole("user"));
+            });*/
+
             services.AddIdentityServer()
-                .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
+            .AddApiAuthorization<ApplicationUser, ApplicationDbContext>(options => {
+
+                options.IdentityResources["openid"].UserClaims.Add("role");
+
+                options.ApiResources.Single().UserClaims.Add("role");
+
+            });
+            
+            System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler
+            .DefaultInboundClaimTypeMap.Remove("role");
+            /*.AddApiAuthorization<ApplicationUser, ApplicationDbContext>();*/
+            services.AddApiAuthorization().AddAccountClaimsPrincipalFactory<RolesClaimsPrincipalFactory>();
+
 
             services.AddAuthentication()
                 .AddIdentityServerJwt();

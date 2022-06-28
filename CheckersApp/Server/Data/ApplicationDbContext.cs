@@ -1,4 +1,5 @@
-﻿using CheckersApp.Server.Models;
+﻿using CheckersApp.Server.Entities;
+using CheckersApp.Server.Models;
 using IdentityServer4.EntityFramework.Options;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,8 @@ namespace CheckersApp.Server.Data
 {
     public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>
     {
+        public DbSet<Post> Posts { get; set; }
+
         public ApplicationDbContext(
             DbContextOptions options,
             IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)

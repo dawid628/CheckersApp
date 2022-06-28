@@ -1,5 +1,5 @@
 ﻿<div class="top-row pl-4 navbar navbar-dark">
-    <a class="navbar-brand" href="">CheckersApp</a>
+    <a class="navbar-brand" href="">Warcaby</a>
     <button class="navbar-toggler" @onclick="ToggleNavMenu">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -9,14 +9,21 @@
     <ul class="nav flex-column">
         <li class="nav-item px-3">
             <NavLink class="nav-link" href="/" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
+                <span class="oi oi-home" aria-hidden="true"></span> Strona główna
             </NavLink>
             <NavLink class="nav-link" href="/play" Match="NavLinkMatch.All">
-                <span class="oi oi-play-circle" aria-hidden="true"></span> Games
+                <span class="oi oi-play-circle" aria-hidden="true"></span> Gry
             </NavLink>
             <NavLink class="nav-link" href="/ranking" Match="NavLinkMatch.All">
-                <span class="oi oi-arrow-circle-top" aria-hidden="true"></span> Scoreboard
+                <span class="oi oi-arrow-circle-top" aria-hidden="true"></span> Ranking
             </NavLink>
+            <AuthorizeView Roles="administrator,moderator">
+                <Authorized>
+                    <NavLink class="nav-link" href="/administration" Match="NavLinkMatch.All">
+                        <span class="oi oi-key"></span>Panel zarządzania
+                    </NavLink>
+                </Authorized>
+            </AuthorizeView>
         </li>
     </ul>
 </div>

@@ -111,6 +111,25 @@ using Microsoft.AspNetCore.Authorization;
         {
         }
         #pragma warning restore 1998
+#nullable restore
+#line 5 "C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\Pages\Home.razor"
+      
+    List<KeyValuePair<string, string>> articles = new();
+
+    async Task GetPosts()
+    {
+        HttpClient client = new HttpClient();
+        articles = await client.GetFromJsonAsync<List<KeyValuePair<string, string>>>("https://localhost:44303/post/GetPosts");
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetPosts();
+    }
+
+#line default
+#line hidden
+#nullable disable
     }
 }
 #pragma warning restore 1591

@@ -1,4 +1,5 @@
 ﻿@page "/play"
+
 @using Microsoft.AspNetCore.SignalR.Client
 @using Microsoft.AspNetCore.Authorization;
 @inject AuthenticationStateProvider AuthenticationStateProvider
@@ -22,6 +23,7 @@
     {
         HttpClient client = new HttpClient();
         tables = await client.GetFromJsonAsync<List<string>>("https://localhost:44303/api/GetTables");
+        names = await client.GetFromJsonAsync<List<KeyValuePair<string, string>>>("https://localhost:44303/api/GetNames");
     }
 
     async Task CreateGame()
@@ -33,8 +35,7 @@
         await hubConnection.StartAsync();
         tableId = Guid.NewGuid().ToString();
 
-
-        await hubConnection.SendAsync("JoinTable", tableId);
+        await hubConnection.SendAsync("JoinTable", tableId, playerName);
         inGame = true;
     }
 
@@ -47,16 +48,17 @@
         await hubConnection.StartAsync();
         this.tableId = tableId;
         isWhite = false;
-        await hubConnection.SendAsync("JoinTable", tableId);
+        await hubConnection.SendAsync("JoinTable", tableId, playerName);
         inGame = true;
     }
     string playerName = "";
     string tableId = "";
     //  string userName = "";
     List<string> tables = new List<string>();
+    List<KeyValuePair<string, string>> names = new List<KeyValuePair<string, string>>();
     bool isWhite = true;
 }
-@if (!inGame) {<h1>Join or create game</h1> }
+@if (!inGame) {<h1 class="pageheader">Dołącz do gry</h1> }
     
 <AuthorizeView>
     <Authorized>
@@ -66,10 +68,10 @@
         }
         else
         {
-            <button @onclick="CreateGame" class="btn btn-primary btn-lg" style="padding:15px;margin-top:20px;">Create Game</button><br />
+            <button @onclick="CreateGame" class="btn btn-primary btn-lg" style="padding:15px;margin-top:20px;">Stwórz grę</button><br />
             @foreach (string table in tables)
             {
-                <button @onclick="() => JoinGame(table)" class="btn btn-primary btn-lg" style="padding:15px;margin-top:20px;">Join Game @table</button><br />
+                <button @onclick="() => JoinGame(table)" class="btn btn-primary btn-lg" style="padding:15px;margin-top:20px;">Zagraj z @names.First(r => r.Key == table).Value</button><br />
             }
         }
     </Authorized>

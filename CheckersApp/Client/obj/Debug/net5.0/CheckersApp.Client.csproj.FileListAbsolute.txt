@@ -679,3 +679,11 @@ C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\obj\Debug\net5.0\Razor
 C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\obj\Debug\net5.0\Razor\Pages\Home.razor.g.cs
 C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\obj\Debug\net5.0\RazorDeclaration\Pages\Score.razor.g.cs
 C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\obj\Debug\net5.0\Razor\Pages\Score.razor.g.cs
+C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\obj\Debug\net5.0\RazorDeclaration\Pages\AdministrationUsers.razor.g.cs
+C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\obj\Debug\net5.0\Razor\Pages\AdministrationUsers.razor.g.cs
+C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\obj\Debug\net5.0\RazorDeclaration\Pages\AdminPanel.razor.g.cs
+C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\obj\Debug\net5.0\Razor\Pages\AdminPanel.razor.g.cs
+C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\obj\Debug\net5.0\RazorDeclaration\Pages\AdministrationPosts.razor.g.cs
+C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\obj\Debug\net5.0\Razor\Pages\AdministrationPosts.razor.g.cs
+C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\obj\Debug\net5.0\RazorDeclaration\Pages\CreatePost.razor.g.cs
+C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\obj\Debug\net5.0\Razor\Pages\CreatePost.razor.g.cs

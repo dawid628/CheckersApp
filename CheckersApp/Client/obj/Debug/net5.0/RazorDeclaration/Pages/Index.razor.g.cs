@@ -90,14 +90,14 @@ using CheckersApp.Client.Shared;
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\Pages\Index.razor"
+#line 3 "C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\Pages\Index.razor"
 using Microsoft.AspNetCore.SignalR.Client;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 3 "C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\Pages\Index.razor"
+#line 4 "C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\Pages\Index.razor"
 using Microsoft.AspNetCore.Authorization;
 
 #line default
@@ -112,7 +112,7 @@ using Microsoft.AspNetCore.Authorization;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 5 "C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\Pages\Index.razor"
+#line 6 "C:\Users\User\source\repos\CheckersApp\CheckersApp\Client\Pages\Index.razor"
       
     //[CascadingParameter]
     //private Task<AuthenticationStateProvider> _authState { get; set; }
@@ -133,6 +133,7 @@ using Microsoft.AspNetCore.Authorization;
     {
         HttpClient client = new HttpClient();
         tables = await client.GetFromJsonAsync<List<string>>("https://localhost:44303/api/GetTables");
+        names = await client.GetFromJsonAsync<List<KeyValuePair<string, string>>>("https://localhost:44303/api/GetNames");
     }
 
     async Task CreateGame()
@@ -144,8 +145,7 @@ using Microsoft.AspNetCore.Authorization;
         await hubConnection.StartAsync();
         tableId = Guid.NewGuid().ToString();
 
-
-        await hubConnection.SendAsync("JoinTable", tableId);
+        await hubConnection.SendAsync("JoinTable", tableId, playerName);
         inGame = true;
     }
 
@@ -158,13 +158,14 @@ using Microsoft.AspNetCore.Authorization;
         await hubConnection.StartAsync();
         this.tableId = tableId;
         isWhite = false;
-        await hubConnection.SendAsync("JoinTable", tableId);
+        await hubConnection.SendAsync("JoinTable", tableId, playerName);
         inGame = true;
     }
     string playerName = "";
     string tableId = "";
     //  string userName = "";
     List<string> tables = new List<string>();
+    List<KeyValuePair<string, string>> names = new List<KeyValuePair<string, string>>();
     bool isWhite = true;
 
 #line default
